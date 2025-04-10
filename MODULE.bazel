@@ -1,0 +1,25 @@
+module(
+    name = "typescript_monorepo",
+    version = "0.1.0",
+)
+
+bazel_dep(name = "rules_nodejs", version = "5.8.3")
+bazel_dep(name = "aspect_rules_ts", version = "2.1.0")
+bazel_dep(name = "aspect_rules_js", version = "1.34.1")
+bazel_dep(name = "aspect_rules_swc", version = "1.1.0")
+
+npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
+npm.npm_translate_lock(
+    name = "npm",
+    pnpm_lock = "//:package-lock.json",
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+use_repo(npm, "npm")
+
+rules_ts_ext = use_extension(
+    "@aspect_rules_ts//ts:extensions.bzl",
+    "ext",
+    dev_dependency = True,
+)
+rules_ts_ext.deps()
+use_repo(rules_ts_ext, "aspect_rules_ts_deps")

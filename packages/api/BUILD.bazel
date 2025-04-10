@@ -1,0 +1,25 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library")
+
+ts_project(
+    name = "api_ts",
+    srcs = glob(["src/**/*.ts"]),
+    declaration = True,
+    tsconfig = "//packages/api:tsconfig.json",
+    deps = [
+        "//packages/common",
+        "@npm//@types/express",
+        "@npm//express",
+    ],
+)
+
+js_library(
+    name = "api_lib",
+    srcs = [":api_ts"],
+)
+
+js_binary(
+    name = "api",
+    entry_point = "src/index.ts",
+    data = [":api_lib"],
+)

@@ -1,0 +1,19 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+ts_project(
+    name = "src",
+    srcs = glob(["src/**/*.ts", "src/**/*.tsx"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        "@npm//@types/node",
+    ],
+)
+
+js_library(
+    name = "typescript_bazel_example",
+    srcs = [":src"],
+    deps = [
+        "@npm//@types/node",
+    ],
+)

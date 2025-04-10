@@ -1,0 +1,18 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+ts_project(
+    name = "common_ts",
+    srcs = glob(["src/**/*.ts"]),
+    declaration = True,
+    tsconfig = "//packages/common:tsconfig.json",
+    deps = [
+        "@npm//date-fns",
+    ],
+)
+
+js_library(
+    name = "common",
+    srcs = [":common_ts"],
+    visibility = ["//visibility:public"],
+)

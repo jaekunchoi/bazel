@@ -1,0 +1,22 @@
+# Enable Bzlmod for external dependencies
+common --enable_bzlmod
+
+# TypeScript configuration
+build --strategy=TypeScriptCompile=worker
+
+# Use a local node installation
+build --define=NODE_PATH=/usr/local/bin/node
+
+# Performance optimizations
+build --experimental_remote_merkle_tree_cache
+build --experimental_remote_cache_compression
+build --experimental_remote_cache_async
+
+# Developer convenience
+build --color=yes
+test --test_output=errors
+
+# Bazel 8 specific settings
+common --experimental_enable_bzlmod
+build --incompatible_enable_cc_toolchain_resolution
+build --incompatible_strict_action_env
